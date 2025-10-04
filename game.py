@@ -2,35 +2,40 @@ from tkinter import *
 from dot import Dot
 
 class GameScreen():
-    def __init__(self, winsize = 500):
+    def __init__(self, winsize = 800):
 
         # global game variables
         self.gameState = 0  # 0 - start ; 1 - middle game ; 2 - endgame ; 3 - winner screen
         self.nexdtMove = "white"
         self.winner = None
+        self.gameText = None
+        self.whiteRingsOnMap = 0
+        self.blackRingsOnMap = 0
+        self.whiteRingsOffMap = 9
+        self.blackRingsOffMap = 9
 
 
         #create game map
         self.root = Tk()
         self.root.minsize(winsize,winsize)
         self.root.maxsize(winsize,winsize)
-        self.root.geometry("500x500")
-        self.canvas = Canvas(self.root, width=500, height=500, bg="grey")
+        self.root.geometry("800x800")
+        self.canvas = Canvas(self.root, width=800, height=800, bg="grey")
 
         innerLayer = [
-                            Dot([200,200], self.canvas, self), Dot([250,200], self.canvas, self), Dot([300,200], self.canvas, self),
-                            Dot([200,250], self.canvas, self),                                    Dot([300,250], self.canvas, self),
-                            Dot([200,300], self.canvas, self), Dot([250,300], self.canvas, self), Dot([300,300], self.canvas, self),
+                            Dot([300,300], self.canvas, self), Dot([400,300], self.canvas, self), Dot([500,300], self.canvas, self),
+                            Dot([300,400], self.canvas, self),                                    Dot([500,400], self.canvas, self),
+                            Dot([300,500], self.canvas, self), Dot([400,500], self.canvas, self), Dot([500,500], self.canvas, self),
         ]
         middleLayer = [
-                            Dot([150,150], self.canvas, self), Dot([250,150], self.canvas, self), Dot([350,150], self.canvas, self),
-                            Dot([150,250], self.canvas, self),                                    Dot([350,250], self.canvas, self),
-                            Dot([150,350], self.canvas, self), Dot([250,350], self.canvas, self), Dot([350,350], self.canvas, self),
+                            Dot([200,200], self.canvas, self), Dot([400,200], self.canvas, self), Dot([600,200], self.canvas, self),
+                            Dot([200,400], self.canvas, self),                                    Dot([600,400], self.canvas, self),
+                            Dot([200,600], self.canvas, self), Dot([400,600], self.canvas, self), Dot([600,600], self.canvas, self),
         ]
         outherLayer = [
-                            Dot([100,100], self.canvas, self), Dot([250,100], self.canvas, self), Dot([400,100], self.canvas, self),
-                            Dot([100,250], self.canvas, self),                                    Dot([400,250], self.canvas, self),
-                            Dot([100,400], self.canvas, self), Dot([250,400], self.canvas, self), Dot([400,400], self.canvas, self),
+                            Dot([100,100], self.canvas, self), Dot([400,100], self.canvas, self), Dot([700,100], self.canvas, self),
+                            Dot([100,400], self.canvas, self),                                    Dot([700,400], self.canvas, self),
+                            Dot([100,700], self.canvas, self), Dot([400,700], self.canvas, self), Dot([700,700], self.canvas, self),
         ]
 
         self.gameMap = [innerLayer, middleLayer, outherLayer]
@@ -81,8 +86,12 @@ class GameScreen():
         self.root.mainloop()
 
     def mainText(self, txt = None):
-        self.gameText.pack_forget()
+        if (self.gameText != None):
+            self.gameText.pack_forget()
         if txt == None:
             txt = "Next move: "+self.nexdtMove
         self.gameText = Label(self.root, text=txt)
         self.gameText.pack()
+
+    def buttonGetClicked(dot):
+        print("dot get clicked")

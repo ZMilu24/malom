@@ -14,8 +14,8 @@ def main():
     TPButton = Button(root, text="2 player game", command=lambda : GameScreen())
     TPButton.place(rely=.2)
 
-    root.minsize(500, 500)
-    root.maxsize(500, 500)
+    root.minsize(800, 800)
+    root.maxsize(800, 800)
 
     root.mainloop()
 
