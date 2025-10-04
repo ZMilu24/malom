@@ -11,7 +11,7 @@ def main():
     welcome = Label(root, text='Wellcome to the Game')
     welcome.place(rely=.1)
 
-    TPButton = Button(root, text="2 fős játék", command=lambda : GameScreen())
+    TPButton = Button(root, text="2 player game", command=lambda : GameScreen())
     TPButton.place(rely=.2)
 
     root.minsize(500, 500)
