@@ -1,15 +1,17 @@
+from tkinter import *
+
 class Dot():
     def __init__(self, pos, canvas, gs): # pos = [x,y], tonari = [ Dot args]
         self.pos = pos
         self.gs = gs
         self.canvas = canvas
         self.highlight = None
-        self.ringColor = None
         self.getClicked = False
+        self.ring = None
         self.CreateDot()
 
     def CreateDot(self):
-        self.dot = self.canvas.create_oval(self.pos[0]-20,self.pos[1]-20,self.pos[0]+20,self.pos[1]+20, fill="black")
+        self.dot = self.canvas.create_oval(self.pos[0]-20,self.pos[1]-20,self.pos[0]+20,self.pos[1]+20, fill="grey")
         self.canvas.tag_bind(self.dot, '<1>', self.on_click)
 
     def setNext(self, tonari):

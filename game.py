@@ -1,5 +1,6 @@
 from tkinter import *
 from dot import Dot
+from ring import Ring
 
 class GameScreen():
     def __init__(self, winsize = 800):
@@ -13,14 +14,15 @@ class GameScreen():
         self.blackRingsOnMap = 0
         self.whiteRingsOffMap = 9
         self.blackRingsOffMap = 9
-
+        self.whiteRings = []
+        self.blackRings = []
 
         #create game map
         self.root = Tk()
         self.root.minsize(winsize,winsize)
         self.root.maxsize(winsize,winsize)
         self.root.geometry("800x800")
-        self.canvas = Canvas(self.root, width=800, height=800, bg="grey")
+        self.canvas = Canvas(self.root, width=800, height=800, bg="#101b3d")
 
         innerLayer = [
                             Dot([300,300], self.canvas, self), Dot([400,300], self.canvas, self), Dot([500,300], self.canvas, self),
@@ -52,11 +54,19 @@ class GameScreen():
                     if (layer == 1):
                         nodes.append(self.gameMap[layer+1][3])
                         nodes.append(self.gameMap[layer-1][3])
+                    elif (layer == 0):
+                        nodes.append(self.gameMap[layer+1][3])
+                    else:
+                        nodes.append(self.gameMap[layer-1][3])
                 elif (i == 4):
                     nodes.append(self.gameMap[layer][2])
                     nodes.append(self.gameMap[layer][7])
                     if (layer == 1):
                         nodes.append(self.gameMap[layer+1][4])
+                        nodes.append(self.gameMap[layer-1][4])
+                    elif (layer == 0):
+                        nodes.append(self.gameMap[layer+1][4])
+                    else:
                         nodes.append(self.gameMap[layer-1][4])
                 elif (i == 7):
                     nodes.append(self.gameMap[layer][4])
@@ -77,11 +87,26 @@ class GameScreen():
                         elif (i == 6):
                             nodes.append(self.gameMap[layer+1][6])
                             nodes.append(self.gameMap[layer-1][6])
+                    elif (layer == 0):
+                        if (i == 1):
+                            nodes.append(self.gameMap[layer+1][1])
+                        elif (i == 6):
+                            nodes.append(self.gameMap[layer+1][6])
+                    elif (layer == 2):
+                        if (i == 1):
+                            nodes.append(self.gameMap[layer-1][1])
+                        elif (i == 6):
+                            nodes.append(self.gameMap[layer-1][6])
                 self.gameMap[layer][i].setNext(nodes)
 
-        self.canvas.pack()
+        for layer in self.gameMap:
+            for i in layer:
+                i.Highlight()
+                i.DeleteHighlight()
 
         self.mainText()
+
+        self.canvas.pack()
 
         self.root.mainloop()
 
@@ -93,5 +118,18 @@ class GameScreen():
         self.gameText = Label(self.root, text=txt)
         self.gameText.pack()
 
-    def buttonGetClicked(dot):
-        print("dot get clicked")
+    def buttonGetClicked(self, dot):
+        # cer 1:
+        if dot.ring == None:
+            if self.nexdtMove == "white" and self.whiteRingsOffMap > 0:
+                ring = Ring(self.nexdtMove, dot, self)
+                dot.ring = ring
+                self.whiteRings.append(ring)
+                self.whiteRingsOffMap -= 1
+                self.nexdtMove = "black"
+            elif self.nexdtMove == "black" and self.blackRingsOffMap > 0:
+                ring = Ring(self.nexdtMove, dot, self)
+                dot.ring = ring
+                self.whiteRings.append(ring)
+                self.blackRingsOffMap -= 1
+                self.nexdtMove = "white"
