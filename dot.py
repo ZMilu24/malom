@@ -21,8 +21,11 @@ class Dot():
                 self.canvas.create_line(self.pos[0], self.pos[1], i.pos[0], i.pos[1])
     
     def Highlight(self):
-        self.highlight = self.canvas.create_oval(self.pos[0]-25,self.pos[1]-25,self.pos[0]+25,self.pos[1]+25, fill="red")
-        self.CreateDot()
+        if self.ring == None:
+            self.highlight = self.canvas.create_oval(self.pos[0]-25,self.pos[1]-25,self.pos[0]+25,self.pos[1]+25, fill="red")
+            self.CreateDot()
+            if self.ring != None:
+                self.ring.createRing()
 
     def HighlightTonari(self):
         for i in self.gs.gameMap:
@@ -35,8 +38,11 @@ class Dot():
     def DeleteHighlight(self):
         self.canvas.delete(self.highlight)
 
+    def DeleteRing(self):
+        self.canvas.delete(self.ring.ring)
+        self.ring = None
+    
     def on_click(self, event):
-        print("get clicked")
         for i in self.gs.gameMap:
             for l in i:
                 l.getClicked = False
