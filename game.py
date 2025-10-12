@@ -251,6 +251,28 @@ class GameScreen():
             print()
 
     def buttonGetClicked(self, dot):
+
+        def onMapRemover():
+            if (dot.ring.color == "white"):
+                self.whiteRingsOnMap -= 1
+            else:
+                self.blackRingsOnMap -= 1
+
+        def ColorChange():
+            print("color change")
+            if self.selectedDot == None:
+                if self.nexdtMove == "white":
+                    self.nexdtMove = "black"
+                else:
+                    self.nexdtMove = "white"
+
+        def RingRemover():
+            if dot.ring != None:
+                onMapRemover()
+            dot.DeleteRing()
+            self.shutDownHighlight()
+            self.mansGame = False
+
         # cer 1:
         if self.gameState == 0:
             if (self.mansGame == False):
@@ -266,10 +288,8 @@ class GameScreen():
                         self.blackRingsOffMap -= 1
                         self.blackRingsOnMap += 1
             else:
-                if (dot.ring.color == "white"):
-                    self.whiteRingsOnMap -= 1
-                else:
-                    self.blackRingsOnMap -= 1
+                if dot.ring != None:
+                    onMapRemover()
                 dot.DeleteRing()
                 self.shutDownHighlight()
                 self.mansGame = False
@@ -294,25 +314,20 @@ class GameScreen():
                     self.selectedDot = None
                     self.shutDownHighlight()
                 else:
-                    if (dot.ring.color == "white"):
-                        self.whiteRingsOnMap -= 1
-                    else:
-                        self.blackRingsOnMap -= 1
-                    dot.DeleteRing()
-                    self.shutDownHighlight()
-                    self.mansGame = False
+                    RingRemover()
         try:
-            if dot.ring.color != None:
+            if dot.ring != None:
                 if self.gameState == 0:
                     self.ThreeMansGame(dot)
                 else:
                     if self.selectedDot == None:
                         self.ThreeMansGame(dot)
-                if self.selectedDot == None:
-                    if self.nexdtMove == "white":
-                        self.nexdtMove = "black"
-                    else:
-                        self.nexdtMove = "white"
+                if self.mansGame == False:
+                    ColorChange()
+                else:
+                    if dot.ring.color != self.nexdtMove:
+                        RingRemover()
+                        ColorChange()
         except:
             print()
         self.stateHandler()
