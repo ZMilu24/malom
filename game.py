@@ -19,8 +19,9 @@ class GameScreen():
         self.whiteRingsOffMap = 9
         self.blackRingsOffMap = 9
 
-        self.whiteRings = []
-        self.blackRings = []
+        self.whiteRings =   []
+        self.blackRings =   []
+        self.ThreeMan =     []
 
         self.mansGame = False
 
@@ -120,6 +121,7 @@ class GameScreen():
             self.gameState = 1
 
     def shutDownHighlight(self):
+        print("shut down highlight")
         for layer in self.gameMap:
             for i in layer:
                 i.DeleteHighlight()
@@ -132,20 +134,32 @@ class GameScreen():
     def WhiteGame(self, lista, dot):
         if dot.ring in lista:
             self.mansGame = True
+            self.ThreeMan.append(lista)
             for layer in self.gameMap:
                 for i in layer:
                     if i.ring != None:
                         if i.ring.color == "black":
-                            i.Highlight()
+                            flag = True
+                            for l in self.ThreeMan:
+                                if i.ring in l:
+                                    flag = False
+                            if flag:
+                                i.Highlight()
             
     def BlackGame(self, lista, dot):
         if dot.ring in lista:
             self.mansGame = True
+            self.ThreeMan.append(lista)
             for layer in self.gameMap:
                 for i in layer:
                     if i.ring != None:
                         if i.ring.color == "white":
-                            i.Highlight()
+                            flag = True
+                            for l in self.ThreeMan:
+                                if i.ring in l:
+                                    flag = False
+                            if flag:
+                                i.Highlight()
 
     def ThreeMansGame(self, dot):
         for layer in range(len(self.gameMap)):
@@ -267,11 +281,13 @@ class GameScreen():
                     self.nexdtMove = "white"
 
         def RingRemover():
-            if dot.ring != None:
-                onMapRemover()
-            dot.DeleteRing()
-            self.shutDownHighlight()
-            self.mansGame = False
+            if dot.highlight != None:
+                print("KILL")
+                if dot.ring != None:
+                    onMapRemover()
+                dot.DeleteRing()
+                self.shutDownHighlight()
+                self.mansGame = False
 
         # cer 1:
         if self.gameState == 0:
@@ -287,19 +303,14 @@ class GameScreen():
                         self.blackRings.append(ring)
                         self.blackRingsOffMap -= 1
                         self.blackRingsOnMap += 1
+                    ColorChange()
             else:
                 if dot.ring != None:
                     onMapRemover()
-                dot.DeleteRing()
-                self.shutDownHighlight()
-                self.mansGame = False
+                RingRemover()
         # cer 2:
         elif self.gameState == 1:
-            if dot.ring != None:
-                if dot.ring.color == self.nexdtMove:
-                    dot.HighlightTonari()
-                    self.selectedDot = dot
-            elif dot.highlight != None:
+            if dot.highlight != None:
                 if (self.mansGame == False):
                     #create new ring + delete old ring
                     ring = self.createRing(dot)
@@ -313,8 +324,14 @@ class GameScreen():
                     self.selectedDot.DeleteRing()
                     self.selectedDot = None
                     self.shutDownHighlight()
+                    if self.mansGame == False:
+                        ColorChange()
                 else:
                     RingRemover()
+            elif dot.ring != None:
+                if dot.ring.color == self.nexdtMove:
+                    dot.HighlightTonari()
+                    self.selectedDot = dot
         try:
             if dot.ring != None:
                 if self.gameState == 0:
@@ -322,12 +339,9 @@ class GameScreen():
                 else:
                     if self.selectedDot == None:
                         self.ThreeMansGame(dot)
-                if self.mansGame == False:
-                    ColorChange()
-                else:
+                if self.mansGame == True:
                     if dot.ring.color != self.nexdtMove:
                         RingRemover()
-                        ColorChange()
         except:
             print()
         self.stateHandler()
