@@ -117,8 +117,13 @@ class GameScreen():
         self.root.mainloop()
 
     def stateHandler(self):
-        if self.whiteRingsOffMap == 0 and self.blackRingsOffMap == 0:
+        #game state
+        if self.gameState == 0 and self.whiteRingsOffMap == 0 and self.blackRingsOffMap == 0:
             self.gameState = 1
+        if self.gameState == 1 and (self.whiteRingsOnMap == 3 or self.blackRingsOnMap == 3):
+            self.gameState = 2
+        if self.gameState == 2 and (self.whiteRingsOnMap == 2 or self.blackRingsOnMap == 2):
+            self.gameState = 3
 
     def shutDownHighlight(self):
         print("shut down highlight")
@@ -168,23 +173,31 @@ class GameScreen():
                 if self.gameMap[layer][0].ring.color == "white" and self.gameMap[layer][1].ring.color == "white" and self.gameMap[layer][2].ring.color == "white":
                     self.WhiteGame([self.gameMap[layer][0].ring, self.gameMap[layer][1].ring, self.gameMap[layer][2].ring], dot)
             except:
+                if ([self.gameMap[layer][0].ring, self.gameMap[layer][1].ring, self.gameMap[layer][2].ring] in self.ThreeMan):
+                    self.ThreeMan.remove([self.gameMap[layer][0].ring, self.gameMap[layer][1].ring, self.gameMap[layer][2].ring])
                 print()
             try:
                 if self.gameMap[layer][5].ring.color == "white" and self.gameMap[layer][6].ring.color == "white" and self.gameMap[layer][7].ring.color == "white":
                     self.WhiteGame([self.gameMap[layer][5].ring, self.gameMap[layer][6].ring, self.gameMap[layer][7].ring], dot)
             except:
+                if ([self.gameMap[layer][5].ring, self.gameMap[layer][6].ring, self.gameMap[layer][7].ring] in self.ThreeMan):
+                    self.ThreeMan.remove([self.gameMap[layer][5].ring, self.gameMap[layer][6].ring, self.gameMap[layer][7].ring])
                 print()
 
             try:
                 if self.gameMap[layer][2].ring.color == "white" and self.gameMap[layer][4].ring.color == "white" and self.gameMap[layer][7].ring.color == "white":
                     self.WhiteGame([self.gameMap[layer][2].ring, self.gameMap[layer][4].ring, self.gameMap[layer][7].ring], dot)
             except:
+                if ([self.gameMap[layer][2].ring, self.gameMap[layer][4].ring, self.gameMap[layer][7].ring] in self.ThreeMan):
+                    self.ThreeMan.remove([self.gameMap[layer][2].ring, self.gameMap[layer][4].ring, self.gameMap[layer][7].ring])
                 print()
 
             try:
                 if self.gameMap[layer][0].ring.color == "white" and self.gameMap[layer][3].ring.color == "white" and self.gameMap[layer][5].ring.color == "white":
                     self.WhiteGame([self.gameMap[layer][0].ring, self.gameMap[layer][3].ring, self.gameMap[layer][5].ring], dot)
             except:
+                if ([self.gameMap[layer][0].ring, self.gameMap[layer][3].ring, self.gameMap[layer][5].ring] in self.ThreeMan):
+                    self.ThreeMan.remove([self.gameMap[layer][0].ring, self.gameMap[layer][3].ring, self.gameMap[layer][5].ring])
                 print()
 
             #Balck
@@ -192,24 +205,32 @@ class GameScreen():
                 if self.gameMap[layer][0].ring.color == "black" and self.gameMap[layer][1].ring.color == "black" and self.gameMap[layer][2].ring.color == "black":
                     self.BlackGame([self.gameMap[layer][0].ring, self.gameMap[layer][1].ring, self.gameMap[layer][2].ring], dot)
             except:
+                if ([self.gameMap[layer][0].ring, self.gameMap[layer][1].ring, self.gameMap[layer][2].ring] in self.ThreeMan):
+                    self.ThreeMan.remove([self.gameMap[layer][0].ring, self.gameMap[layer][1].ring, self.gameMap[layer][2].ring])
                 print()
 
             try:
                 if self.gameMap[layer][5].ring.color == "black" and self.gameMap[layer][6].ring.color == "black" and self.gameMap[layer][7].ring.color == "black":
                     self.BlackGame([self.gameMap[layer][5].ring, self.gameMap[layer][6].ring, self.gameMap[layer][7].ring], dot)
             except:
+                if ([self.gameMap[layer][5].ring, self.gameMap[layer][6].ring, self.gameMap[layer][7].ring] in self.ThreeMan):
+                    self.ThreeMan.remove([self.gameMap[layer][5].ring, self.gameMap[layer][6].ring, self.gameMap[layer][7].ring])
                 print()
 
             try:
                 if self.gameMap[layer][2].ring.color == "black" and self.gameMap[layer][4].ring.color == "black" and self.gameMap[layer][7].ring.color == "black":
                     self.BlackGame([self.gameMap[layer][2].ring, self.gameMap[layer][4].ring, self.gameMap[layer][7].ring], dot)
             except:
+                if ([self.gameMap[layer][2].ring, self.gameMap[layer][4].ring, self.gameMap[layer][7].ring] in self.ThreeMan):
+                    self.ThreeMan.remove([self.gameMap[layer][2].ring, self.gameMap[layer][4].ring, self.gameMap[layer][7].ring])
                 print()
 
             try:
                 if self.gameMap[layer][0].ring.color == "black" and self.gameMap[layer][3].ring.color == "black" and self.gameMap[layer][5].ring.color == "black":
                     self.BlackGame([self.gameMap[layer][0].ring, self.gameMap[layer][3].ring, self.gameMap[layer][5].ring], dot)
             except:
+                if ([self.gameMap[layer][0].ring, self.gameMap[layer][3].ring, self.gameMap[layer][5].ring] in self.ThreeMan):
+                    self.ThreeMan.remove([self.gameMap[layer][0].ring, self.gameMap[layer][3].ring, self.gameMap[layer][5].ring])
                 print()
 
         
@@ -218,24 +239,32 @@ class GameScreen():
             if self.gameMap[0][1].ring.color == "white" and self.gameMap[1][1].ring.color == "white" and self.gameMap[2][1].ring.color == "white":
                 self.WhiteGame([self.gameMap[0][1].ring, self.gameMap[1][1].ring, self.gameMap[2][1].ring], dot)
         except:
+            if ([self.gameMap[0][1].ring, self.gameMap[1][1].ring, self.gameMap[2][1].ring] in self.ThreeMan):
+                self.ThreeMan.remove([self.gameMap[0][1].ring, self.gameMap[1][1].ring, self.gameMap[2][1].ring])
             print()
 
         try:
             if self.gameMap[0][3].ring.color == "white" and self.gameMap[1][3].ring.color == "white" and self.gameMap[2][3].ring.color == "white":
                 self.WhiteGame([self.gameMap[0][3].ring, self.gameMap[1][3].ring, self.gameMap[2][3].ring], dot)
         except:
+            if ([self.gameMap[0][3].ring, self.gameMap[1][3].ring, self.gameMap[2][3].ring] in self.ThreeMan):
+                self.ThreeMan.remove([self.gameMap[0][3].ring, self.gameMap[1][3].ring, self.gameMap[2][3].ring])
             print()
 
         try:
             if self.gameMap[0][4].ring.color == "white" and self.gameMap[1][4].ring.color == "white" and self.gameMap[2][4].ring.color == "white":
                 self.WhiteGame([self.gameMap[0][4].ring, self.gameMap[1][4].ring, self.gameMap[2][4].ring], dot)
         except:
+            if ([self.gameMap[0][4].ring, self.gameMap[1][4].ring, self.gameMap[2][4].ring] in self.ThreeMan):
+                self.ThreeMan.remove([self.gameMap[0][4].ring, self.gameMap[1][4].ring, self.gameMap[2][4].ring])
             print()
 
         try:
             if self.gameMap[0][6].ring.color == "white" and self.gameMap[1][6].ring.color == "white" and self.gameMap[2][6].ring.color == "white":
                 self.WhiteGame([self.gameMap[0][6].ring, self.gameMap[1][6].ring, self.gameMap[2][6].ring], dot)
         except:
+            if ([self.gameMap[0][6].ring, self.gameMap[1][6].ring, self.gameMap[2][6].ring] in self.ThreeMan):
+                self.ThreeMan.remove([self.gameMap[0][6].ring, self.gameMap[1][6].ring, self.gameMap[2][6].ring])
             print()
 
             
@@ -244,24 +273,32 @@ class GameScreen():
             if self.gameMap[0][1].ring.color == "black" and self.gameMap[1][1].ring.color == "black" and self.gameMap[2][1].ring.color == "black":
                 self.BlackGame([self.gameMap[0][1].ring, self.gameMap[1][1].ring, self.gameMap[2][1].ring], dot)
         except:
+            if ([self.gameMap[0][1].ring, self.gameMap[1][1].ring, self.gameMap[2][1].ring] in self.ThreeMan):
+                self.ThreeMan.remove([self.gameMap[0][1].ring, self.gameMap[1][1].ring, self.gameMap[2][1].ring])
             print()
 
         try:
             if self.gameMap[0][3].ring.color == "black" and self.gameMap[1][3].ring.color == "black" and self.gameMap[2][3].ring.color == "black":
                 self.BlackGame([self.gameMap[0][3].ring, self.gameMap[1][3].ring, self.gameMap[2][3].ring], dot)
         except:
+            if ([self.gameMap[0][3].ring, self.gameMap[1][3].ring, self.gameMap[2][3].ring] in self.ThreeMan):
+                self.ThreeMan.remove([self.gameMap[0][3].ring, self.gameMap[1][3].ring, self.gameMap[2][3].ring])
             print()
 
         try:
             if self.gameMap[0][4].ring.color == "black" and self.gameMap[1][4].ring.color == "black" and self.gameMap[2][4].ring.color == "black":
                 self.BlackGame([self.gameMap[0][4].ring, self.gameMap[1][4].ring, self.gameMap[2][4].ring], dot)
         except:
+            if ([self.gameMap[0][4].ring, self.gameMap[1][4].ring, self.gameMap[2][4].ring] in self.ThreeMan):
+                self.ThreeMan.remove([self.gameMap[0][4].ring, self.gameMap[1][4].ring, self.gameMap[2][4].ring])
             print()
 
         try:
             if self.gameMap[0][6].ring.color == "black" and self.gameMap[1][6].ring.color == "black" and self.gameMap[2][6].ring.color == "black":
                 self.BlackGame([self.gameMap[0][6].ring, self.gameMap[1][6].ring, self.gameMap[2][6].ring], dot)
         except:
+            if ([self.gameMap[0][6].ring, self.gameMap[1][6].ring, self.gameMap[2][6].ring] in self.ThreeMan):
+                self.ThreeMan.remove([self.gameMap[0][6].ring, self.gameMap[1][6].ring, self.gameMap[2][6].ring])
             print()
 
     def buttonGetClicked(self, dot):
@@ -289,6 +326,26 @@ class GameScreen():
                 self.shutDownHighlight()
                 self.mansGame = False
 
+        def RingMover():
+            #ring mover
+            if (self.mansGame == False):
+                #create new ring + delete old ring
+                ring = self.createRing(dot)
+                if self.nexdtMove == "white":
+                    self.whiteRings.append(ring)
+                    self.whiteRings.remove(self.selectedDot.ring)
+                elif self.nexdtMove == "black":
+                    self.blackRings.append(ring)
+                    self.blackRings.remove(self.selectedDot.ring)
+                dot.DeleteHighlight()
+                self.selectedDot.DeleteRing()
+                self.selectedDot = None
+                self.shutDownHighlight()
+                if self.mansGame == False:
+                    ColorChange()
+            else:
+                RingRemover()
+
         # cer 1:
         if self.gameState == 0:
             if (self.mansGame == False):
@@ -311,26 +368,24 @@ class GameScreen():
         # cer 2:
         elif self.gameState == 1:
             if dot.highlight != None:
-                if (self.mansGame == False):
-                    #create new ring + delete old ring
-                    ring = self.createRing(dot)
-                    if self.nexdtMove == "white":
-                        self.whiteRings.append(ring)
-                        self.whiteRings.remove(self.selectedDot.ring)
-                    elif self.nexdtMove == "black":
-                        self.blackRings.append(ring)
-                        self.blackRings.remove(self.selectedDot.ring)
-                    dot.DeleteHighlight()
-                    self.selectedDot.DeleteRing()
-                    self.selectedDot = None
-                    self.shutDownHighlight()
-                    if self.mansGame == False:
-                        ColorChange()
-                else:
-                    RingRemover()
+                RingMover()
             elif dot.ring != None:
                 if dot.ring.color == self.nexdtMove:
                     dot.HighlightTonari()
+                    self.selectedDot = dot
+        # cer 3:
+        elif self.gameState == 2:
+            if dot.highlight != None:
+                RingMover()
+            elif dot.ring != None:
+                if dot.ring.color == self.nexdtMove:
+                    if (self.nexdtMove == "white" and self.whiteRingsOnMap == 3) or (self.nexdtMove == "black" and self.blackRingsOnMap == 3):
+                        for layer in self.gameMap:
+                            for i in layer:
+                                if i.ring != None:
+                                    i.Highlight()
+                    else:
+                        dot.HighlightTonari()
                     self.selectedDot = dot
         try:
             if dot.ring != None:
@@ -344,5 +399,6 @@ class GameScreen():
                         RingRemover()
         except:
             print()
+        print(self.ThreeMan)
         self.stateHandler()
         print(self.nexdtMove)
